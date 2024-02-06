@@ -1,23 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import app from './firebase';
+import { useEffect,useState } from 'react';
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import Home from './component/home';
+function App(){
 
-function App() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(  () => {
+    
+    
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      setUser(user);
+    }
+    else{
+      navigate('/login');
+    }
+    
+  },[]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  
+      <Home user={user} />
     </div>
   );
 }
